@@ -37,6 +37,7 @@ Arguments:
 Options:
   -d, --date <DATE_TIME>  Date in yyyy-mm-ddTHH:MM:SS format
   -s, --sep <SEP>         Separator [default: "\t"]
+  -c, --count             Count ticks
   -h, --help              Print help information
   -V, --version           Print version information
 ```
@@ -62,7 +63,7 @@ A bi5 file is a lzma encoded sequence of ticks, where each tick is encoded as fo
 | millisecs | u32    | Milliseconds since epoch start |
 | ask       | u32    | Ask price                      |
 | bid       | u32    | Bid price                      |
-| askvol    | f32    | Ask volume                     |
-| bidvol    | f32    | Bid volume                     |
+| askvol    | f32    | Ask size                       |
+| bidvol    | f32    | Bid size                       |
 
 All fields are big-endian encoded.

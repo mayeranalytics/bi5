@@ -20,7 +20,10 @@ struct CliArgs {
    date_time: Option<NaiveDateTime>,
    /// Separator
    #[arg(short, long="sep", default_value_t=String::from("\t"))]
-   sep: String
+   sep: String,
+   /// Count ticks
+   #[arg(short, long, default_value_t=false)]
+   count: bool
 }
 
 
@@ -28,6 +31,12 @@ fn main() -> Result<(), Error>
 {
     let args: CliArgs = CliArgs::parse();
     let ticks: Vec<Tick> = read_bi5(&args.file)?;
+
+    if args.count {
+        println!("{}:{}", args.file, ticks.len());
+        return Ok(())
+    }
+
     let sep = &args.sep;
     println!("t{}bid{}ask{}bidsize{}asksize",sep,sep,sep,sep);
     if let Some(date_time) = args.date_time {
