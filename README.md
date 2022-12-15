@@ -21,9 +21,20 @@ assert_eq!(
 
 The `catbi5` utility dumps a `bi5` file to stdout.
 
-```mark
+```markdown
+Usage: catbi5 [OPTIONS] <FILE>
 
+Arguments:
+  <FILE>  Filename
+
+Options:
+  -d, --date <DATE_TIME>  Date in yyyy-mm-ddTHH:MM:SS format
+  -s, --sep <SEP>         Separator [default: "\t"]
+  -h, --help              Print help information
+  -V, --version           Print version information
 ```
+
+When no date is provided the output shows the milliseconds. Otherwise the proper datetime is calculated and shown.
 
 ## bi5 Format
 
