@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/mayeranalytics/bi5"
 repository = "https://github.com/mayeranalytics/bi5"
-documentation = "https://github.com/mayeranalytics/bi5"
+documentation = "https://docs.rs/crate/bi5/latest"
 keywords = ["parse", "bi5"]
 categories = ["command-line-utilities"]
 
