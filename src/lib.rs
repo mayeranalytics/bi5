@@ -11,18 +11,24 @@ use std::{
 use lzma_rs::lzma_decompress;
 use anyhow::{anyhow, Error};
 
+/// `Tick` is the basic building block of a bi5 file.
 #[derive(BinRead, Debug, PartialEq)]
 pub struct Tick {
+    /// Milliseconds since file start (usually encoded in the file path)
     #[br(big)]
     pub millisecs: u32,
+    /// Ask price
     #[br(big)]
     pub ask: u32,
+    /// Bid price
     #[br(big)]
     pub bid: u32,
+    /// Ask size
     #[br(big)]
-    pub askvol: f32,
+    pub asksize: f32,
+    /// Bid size
     #[br(big)]
-    pub bidvol: f32,
+    pub bidsize: f32,
 }
 
 /// Decompress and parse the bi5 file
@@ -37,7 +43,7 @@ pub struct Tick {
 /// let ticks = read_bi5("test/test.bi5").expect("Read failed");
 /// assert_eq!(
 ///     ticks.first(), 
-///     Some(&Tick { millisecs: 1860002, ask: 133153, bid: 133117, askvol: 0.015, bidvol: 0.02 })
+///     Some(&Tick { millisecs: 1860002, ask: 133153, bid: 133117, asksize: 0.015, bidsize: 0.02 })
 /// );
 /// ```
 pub fn read_bi5<P:AsRef<Path>>(path: P) -> Result<Vec<Tick>, Error> {
@@ -69,11 +75,11 @@ fn test_read() {
             assert_eq!(ticks.len(), 10412);
             assert_eq!(
                 ticks.first(), 
-                Some(&Tick { millisecs: 1860002, bid: 133117, ask: 133153, bidvol: 0.02, askvol: 0.015 })
+                Some(&Tick { millisecs: 1860002, bid: 133117, ask: 133153, bidsize: 0.02, asksize: 0.015 })
             );
             assert_eq!(
                 ticks.last(), 
-                Some(&Tick { millisecs: 3599899,  bid: 131427, ask: 131453,bidvol: 0.02, askvol: 0.015 })
+                Some(&Tick { millisecs: 3599899,  bid: 131427, ask: 131453,bidsize: 0.02, asksize: 0.015 })
             );
         }
     }
