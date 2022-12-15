@@ -1,0 +1,16 @@
+[package]
+name = "bi5"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "catbi5"
+path = "src/main.rs"
+
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
+lzma-rs = "0.2"
+chrono = "0.4"
+binread = "2.2"
+anyhow = "1.0"
