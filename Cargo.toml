@@ -2,11 +2,18 @@
 name = "bi5"
 version = "0.1.0"
 edition = "2021"
+description = "Parse bi5 files"
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/mayeranalytics/bi5"
+repository = "https://github.com/mayeranalytics/bi5"
+documentation = "https://github.com/mayeranalytics/bi5"
+keywords = ["parse", "bi5"]
+categories = ["command-line-utilities"]
 
 [[bin]]
 name = "catbi5"
 path = "src/main.rs"
-
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
