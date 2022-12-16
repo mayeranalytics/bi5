@@ -4,6 +4,25 @@
 //! - `Tick` struct
 //! - `read_bi5_file` function returning a `Vec<Tick>`
 //! - `Bi5` struct that provides an iterator `Bi5Iter`
+//!
+//! Example usage: 
+//! ```
+//! use bi5::Bi5;
+//! let bi5 = Bi5::new("test/test.bi5", None);
+//! for (date_time, tick) in bi5.iter().expect("File error") {
+//!     println!("{},{}", date_time, tick);
+//! }
+//! ```
+//! 
+//! With iterator:
+//! ```
+//! use bi5::Bi5;
+//! let bi5 = Bi5::new("test/test.bi5", None);
+//! for (date_time, tick) in bi5.iter().expect("File error") {
+//!     println!("{},{}", date_time, tick);
+//! }
+//! ```
+
 use std::{
     path::{Path, PathBuf},
     fs::File,
