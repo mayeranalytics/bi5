@@ -2,7 +2,8 @@
 //! 
 //! The crate provides:
 //! - `Tick` struct
-//! - `read_bi5` function returning a `Vec<Tick>`
+//! - `read_bi5_file` function returning a `Vec<Tick>`
+//! - `Bi5` struct that provides an iterator `Bi5Iter`
 use std::{
     path::{Path, PathBuf},
     fs::File,
