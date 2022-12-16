@@ -15,18 +15,39 @@ Bi5 is a simple file format for storing tick data (see [below](bi5-format)). The
 
 ## Usage
 
+`read_bi5_file` reads a single file and returns `Vec<Tick>` or `Error`.
+
 ```Rust
 use bi5::*;
-let ticks = read_bi5("test/test.bi5").expect("Read failed");
+let ticks = read_bi5_file("test/test.bi5", None).expect("Read failed");
 assert_eq!(
     ticks.first(), 
     Some(&Tick { millisecs: 1860002, ask: 133153, bid: 133117, askvol: 0.015, bidvol: 0.02 })
 );
 ```
 
+Bi5 files and directories can also be read using an iterator:
+
+```Rust
+use bi5::*;
+let bi5 = Bi5::new("test/test.bi5", None);
+for (date_time, tick) in bi5.iter().expect("File error") {
+     println!("{},{}", date_time, tick);
+}
+```
+
+Bi5 files only contain a time offset. If the base date/time is known it can be
+passed to the constructor
+
+```Rust
+let bi5 = Bi5::new("test/test.bi5", Some(date_time));
+```
+
+
+
 ## catbi5 utility
 
-The `catbi5` utility dumps a `bi5` file to stdout.
+The `catbi5` utility dumps a `bi5` tick file to stdout.
 
 ```markdown
 Usage: catbi5 [OPTIONS] <FILE>
@@ -42,16 +63,15 @@ Options:
   -V, --version           Print version information
 ```
 
-When no date is provided the output shows the milliseconds. Otherwise the proper datetime is calculated and shown.
+When no date is provided the output is based of `0000-01-01T00:00:00`. Otherwise the proper datetime is calculated from from the date input.
 
-When output of `catbi5 test/test.bi5 -d2022-12-15T14:00:00 -s, | head -4`, for example, looks like this
+When output of `catbi5 test/test.bi5 -d2022-12-16T14:00:00 -s, | head -4`, for example, looks like this
 
 ```markdown
-t,bid,ask,bidvol,askvol
-2022-12-15 14:31:00.002,133117,133153,0.02,0.015
-2022-12-15 14:31:00.124,133128,133133,0.000043,0.0075
-2022-12-15 14:31:00.174,133067,133103,0.02,0.015
-2022-12-15 14:31:00.265,133078,133102,0.00036,0.015
+t,bid,ask,bidsize,asksize
+2022-12-16 14:31:00.002,133117,133153,0.02,0.015
+2022-12-16 14:31:00.124,133128,133133,0.000043,0.0075
+2022-12-16 14:31:00.174,133067,133103,0.02,0.015
 ```
 
 ## bi5 Format

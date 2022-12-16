@@ -71,6 +71,14 @@ pub enum Bi5Iter {
     Empty
 }
 
+/// Returns 0000-01-01T00:00:00
+fn zero_timestamp() -> NaiveDateTime {
+    NaiveDateTime::new(
+        NaiveDate::from_ymd_opt(0, 1, 1).unwrap(),
+        NaiveTime::from_num_seconds_from_midnight_opt(0, 0).unwrap()
+    )
+}
+
 impl Bi5 {
 
     /// Create `Bi5` representing a bi5 file or directory
@@ -80,11 +88,7 @@ impl Bi5 {
     pub fn new<P:AsRef<Path>>(path: P, date_time: Option<NaiveDateTime>) -> Self {
         Bi5 { 
             path: path.as_ref().to_path_buf(),
-            date_time: date_time.unwrap_or(
-                NaiveDateTime::new(
-                    NaiveDate::from_ymd_opt(0, 1, 1).unwrap(),
-                    NaiveTime::from_num_seconds_from_midnight_opt(0, 0).unwrap()
-                ))
+            date_time: date_time.unwrap_or(zero_timestamp())
         }
     }
 
@@ -202,7 +206,8 @@ impl<'a> Iterator for Bi5Iter {
 ///     Some(&Tick { millisecs: 1860002, ask: 133153, bid: 133117, asksize: 0.015, bidsize: 0.02 })
 /// );
 /// ```
-pub fn read_bi5_file<P:AsRef<Path>+Copy>(path: P, date_time: Option<NaiveDateTime>) -> Result<Vec<Tick>, Error>
+pub fn read_bi5_file<P:AsRef<Path>+Copy>(path: P, date_time: Option<NaiveDateTime>) 
+    -> Result<Vec<Tick>, Error>
 {
     let bi5 = Bi5::new(path, date_time);
     let ticks = bi5.iter()?.map(|x|x.1).collect();
@@ -236,9 +241,7 @@ impl ToDateTime for Path {
 }
 
 fn direntry_to_key(entry: &walkdir::DirEntry) -> NaiveDateTime {
-    entry.path().to_datetime().unwrap_or(
-        NaiveDateTime::from_timestamp_opt(0, 0).unwrap()
-    )
+    entry.path().to_datetime().unwrap_or(zero_timestamp())
 }
 
 #[test]
