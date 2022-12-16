@@ -14,7 +14,7 @@ use chrono::{
 #[command(version, about, long_about = None)]
 struct CliArgs {
    /// Filename
-   file: String,
+   input: String,
    /// Date in yyyy-mm-ddTHH:MM:SS format
    #[arg(short, long="date")]
    date_time: Option<NaiveDateTime>,
@@ -30,28 +30,21 @@ struct CliArgs {
 fn main() -> Result<(), Error> 
 {
     let args: CliArgs = CliArgs::parse();
-    let ticks: Vec<Tick> = read_bi5(&args.file)?;
+
+    let bi5 = Bi5::new(&args.input, args.date_time);
 
     if args.count {
-        println!("{}:{}", args.file, ticks.len());
+        println!("{}:{}", args.input, bi5.iter()?.count());
         return Ok(())
     }
 
     let sep = &args.sep;
     println!("t{}bid{}ask{}bidsize{}asksize",sep,sep,sep,sep);
-    if let Some(date_time) = args.date_time {
-        for tick in ticks.iter() {
-            let t: NaiveDateTime = date_time + Duration::milliseconds(tick.millisecs as i64);
-            println!("{}{}{}{}{}{}{}{}{}", 
-                     t, sep, tick.bid, sep, tick.ask, sep, tick.bidsize, sep, tick.asksize
-                    );
-        }
-    } else {
-        for tick in ticks.iter() {
-            println!("{}{}{}{}{}{}{}{}{}", 
-                     tick.millisecs, sep, tick.bid, sep, tick.ask, sep, tick.bidsize, sep, tick.asksize
-                    );
-        }
+    for (date_time, tick) in bi5.iter()? {
+        let t: NaiveDateTime = date_time + Duration::milliseconds(tick.millisecs as i64);
+        println!("{}{}{}{}{}{}{}{}{}", 
+                    t, sep, tick.bid, sep, tick.ask, sep, tick.bidsize, sep, tick.asksize
+                );
     }
     Ok(())
 }
