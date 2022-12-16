@@ -58,7 +58,7 @@ pub struct Tick {
 }
 
 impl fmt::Display for Tick {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{},{},{},{},{}", self.millisecs, self.bid, self.ask, self.bidsize, self.asksize)
     }
 }
@@ -185,7 +185,7 @@ impl Bi5 {
     }
 }
 
-impl<'a> Iterator for Bi5Iter {
+impl Iterator for Bi5Iter {
     type Item = (NaiveDateTime, Tick);
     fn next(&mut self) -> Option<Self::Item> {
         match self {

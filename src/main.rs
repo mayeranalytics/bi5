@@ -43,7 +43,7 @@ fn main() -> Result<(), Error>
     for (date_time, tick) in bi5.iter()? {
         let t: NaiveDateTime = date_time + Duration::milliseconds(tick.millisecs as i64);
         println!("{}{}{}{}{}{}{}{}{}", 
-                    t, sep, tick.bid, sep, tick.ask, sep, tick.bidsize, sep, tick.asksize
+                  t, sep, tick.bid, sep, tick.ask, sep, tick.bidsize, sep, tick.asksize
                 );
     }
     Ok(())
