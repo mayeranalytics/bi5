@@ -31,7 +31,7 @@ use std::{
     ffi::OsStr,
     fmt,
 };
-use chrono::{NaiveDate, NaiveTime, NaiveDateTime};
+use chrono::{NaiveDate, NaiveTime, NaiveDateTime, Duration};
 use walkdir::{WalkDir};
 use binread::BinRead;
 use lzma_rs::lzma_decompress;
@@ -80,7 +80,9 @@ pub struct Bi5 {
 /// ```
 pub enum Bi5Iter {
     File {
+        /// cursor over binary blob
         cursor: Cursor<Vec<u8>>,
+        /// date_time base of this file 
         date_time: NaiveDateTime,
     },
     Dir {
@@ -191,7 +193,7 @@ impl Iterator for Bi5Iter {
         match self {
             Bi5Iter::Empty => { None }
             Bi5Iter::File { cursor, date_time } => {
-                Tick::read(cursor).ok().map(|tick|(*date_time, tick))
+                Tick::read(cursor).ok().map(|tick|(*date_time + Duration::milliseconds(tick.millisecs as i64), tick))
             },
             Bi5Iter::Dir { walk_dir, file_iter, date_time } => {
                 if let Some(tick) = file_iter.next() {
@@ -280,5 +282,18 @@ fn test_read_bi5() {
                 Some(&Tick { millisecs: 3599899,  bid: 131427, ask: 131453,bidsize: 0.02, asksize: 0.015 })
             );
         }
+    }
+}
+
+#[test]
+/// Test correct length, and correctness of first and last tick in test/test.bi5
+fn test_read2_bi5() {
+    let bi5 = Bi5::new("test/test.bi5", Some(NaiveDateTime::from_timestamp_millis(12345678).unwrap()));
+    if let Some((t,tick)) = bi5.iter().unwrap().next() {
+        assert_eq!(t.timestamp_millis(), 12345678+1860002);
+        assert_eq!(
+            tick, 
+            Tick { millisecs: 1860002, bid: 133117, ask: 133153, bidsize: 0.02, asksize: 0.015 }
+        );
     }
 }
