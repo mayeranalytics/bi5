@@ -1,10 +1,10 @@
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/mayeranalytics/bi5?include_prereleases)
 ![GitHub](https://img.shields.io/github/license/mayeranalytics/bi5)
 [![Latest Version](https://img.shields.io/crates/v/bi5.svg)](https://crates.io/crates/bi5)  
-[![Lib.rs](https://img.shields.io/badge/lib.rs-v0.2.0-blue)](https://lib.rs/crates/bi5)
+[![Lib.rs](https://img.shields.io/badge/lib.rs-v0.2.2-blue)](https://lib.rs/crates/bi5)
 [![Docs.rs](https://docs.rs/bi5/badge.svg)](https://docs.rs/bi5)
 ![CI](https://github.com/mayeranalytics/bi5/actions/workflows/ci.yml/badge.svg)
-[![Changelog](https://img.shields.io/badge/changelog-0.2.0-blue)](https://github.com/mayeranalytics/bi5/blob/main/Changelog.md)
+[![Changelog](https://img.shields.io/badge/changelog-0.2.2-blue)](https://github.com/mayeranalytics/bi5/blob/main/Changelog.md)
 [![Star](https://img.shields.io/github/stars/mayeranalytics/bi5.svg?style=social&amp;label=Star&amp;maxAge=2592000)](https://github.com/mayeranalytics/bi5)
 
 # bi5
