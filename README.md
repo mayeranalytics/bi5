@@ -63,9 +63,9 @@ Options:
   -V, --version           Print version information
 ```
 
-When no date is provided the output is based of `0000-01-01T00:00:00`. Otherwise the proper datetime is calculated from from the date input.
+When no date is provided the base is `0000-01-01T00:00:00`. Otherwise the proper datetime is calculated from the date input.
 
-When output of `catbi5 test/test.bi5 -d2022-12-16T14:00:00 -s, | head -4`, for example, looks like this
+The output of `catbi5 test/test.bi5 -d2022-12-16T14:00:00 -s, | head -4`, for example, looks like this
 
 ```markdown
 t,bid,ask,bidsize,asksize
